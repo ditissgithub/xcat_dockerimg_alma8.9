@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  xcat:
+    image: cdac_xcat:2.16.5
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /drbd/xcatdata:/xcatdata       # Bind the DRBD mount point to /xcatdata in the container
+      - /drbd/var_log_xcat:/var/log/xcat
+      - /drbd/mysql_data:/var/lib/mysql
+#      - /customer_data:/customer_data
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+      placement:
+        constraints:
+#          - node.labels.type == primary
+          - node.labels.type == secondary
+        preferences:
+          - spread: node.labels.type
+    networks:
+      - host
+
+networks:
+  host:
+    external: true
