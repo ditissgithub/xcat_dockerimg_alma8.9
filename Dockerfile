@@ -20,7 +20,7 @@ RUN (cd /lib/systemd/system/sysinit.target.wants/; \
 
 RUN mkdir -p /xcatdata/etc/{dhcp,goconserver,xcat} && ln -sf -t /etc /xcatdata/etc/{dhcp,goconserver,xcat} && \
     mkdir -p /xcatdata/{install,tftpboot} && ln -sf -t / /xcatdata/{install,tftpboot} && \
-    mkdir -p /xcatdata/dhcpd && ln -sf -t /var/lib/ /xcatdata/dhcpd
+    mkdir -p /xcatdata/dhcpd && ln -sf -t /var/lib /xcatdata/dhcpd
 
 
 RUN yum install -y -q wget which &&\
