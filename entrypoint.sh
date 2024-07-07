@@ -12,7 +12,14 @@ if [[ -d "/xcatdata.NEEDINIT"  ]]; then
 
     #echo "initializing networks table..."
     xcatconfig -i
-    XCATBYPASS=1 tabdump site|grep domain || XCATBYPASS=1 chtab key=domain site.value=example.com
+    
+    #Set the values of DOMAIN and DHCPINTERFACES if they are not already present, and provide their values along with the creation of service
+    XCATBYPASS=1 tabdump site | grep domain || XCATBYPASS=1 chtab key=domain site.value=${DOMAIN}
+    XCATBYPASS=1 tabdump site | grep dhcpinterfaces || XCATBYPASS=1 chtab key=dhcpinterfaces site.value=${DHCPINTERFACE}
+    #Update the values of the keys {MASTER, NAMESERVERS, FORWARDERS}, providing the new values along with the creation of service
+    XCATBYPASS=1 chtab key=master site.value=${MASTER}
+    XCATBYPASS=1 chtab key=nameservers site.value=${NAMESERVERS}
+    XCATBYPASS=1 chtab key=forwarders site.value=${FORWARDERS}
 
     echo "create symbol link for /root/.xcat..."
     rsync -a /root/.xcat/* /xcatdata/.xcat
@@ -28,6 +35,13 @@ if [[ -d "/xcatdata.NEEDINIT"  ]]; then
     # workaround for missing `switch_macmap` (#13)
     ln -sf /opt/xcat/bin/xcatclient /opt/xcat/probe/subcmds/bin/switchprobe
 fi
+
+## Start the xcatd service
+restartxcatd &
+pid=$!  # Get the process ID of restartxcatd
+wait $pid  # Wait for restartxcatd to complete
+##
+
 
 cat /etc/motd
 HOSTIPS=$(ip -o -4 addr show up|grep -v "\<lo\>"|xargs -I{} expr {} : ".*inet \([0-9.]*\).*")
