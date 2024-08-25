@@ -101,7 +101,7 @@ for ((i = start_node_no; i <= last_node_no; i++)); do
   ib_ip_network="${ib_ip_network_var}.${i}"
 
   # Add node definition
-  mkdef -t node "${cn_prefix}${i}" groups=compute,all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=root nicips                                   .ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=mac primar                                   ynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
+  mkdef -t node "${cn_prefix}${i}" groups=compute,all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=root nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=mac primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
 
   else
   # Construct the IP network variable
@@ -121,7 +121,7 @@ for ((i = start_node_no; i <= last_node_no; i++)); do
           pvt_ip_network=$($pvt_ip_network_var.$R.$x)
           bmc_ip_network=$($bmc_ip_network_var.$S.$x)
           ib_ip_network=$($ib_ip_network_var.$T.$x)
-          mkdef -t node "${cn_prefix}${i}" groups=compute,all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=roo                                   t nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=ma                                   c primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
+          mkdef -t node "${cn_prefix}${i}" groups=compute,all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=root nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=mac primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
         done
       else
         R=$(($y+$(echo $pv_net_address | awk -F '.' '{print $3}')))
@@ -131,7 +131,7 @@ for ((i = start_node_no; i <= last_node_no; i++)); do
           pvt_ip_network=$($pvt_ip_network_var.$R.$x)
           bmc_ip_network=$($bmc_ip_network_var.$S.$x)
           ib_ip_network=$($ib_ip_network_var.$T.$x)
-          mkdef -t node "${cn_prefix}${i}" groups=compute,all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=roo                                   t nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=ma                                   c primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
+          mkdef -t node "${cn_prefix}${i}" groups=compute,all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=root nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=mac primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
         done
       fi
     done
