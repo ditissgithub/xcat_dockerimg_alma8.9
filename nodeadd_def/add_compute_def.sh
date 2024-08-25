@@ -18,9 +18,6 @@ read -p "Enter The Start Compute Node No: " start_node_no
 read -p "Enter The Last Compute Node No: " last_node_no
 #########This Bash code adds node definitions for compute nodes, scaling up to 16,382 nodes.############
 ##Define the network range##
-ip_network_var=$(echo $pv_net_address | awk -F '.' '{print $1"."$2}')
-bmc_ip_network_var=$(echo $bmc_net_address | awk -F '.' '{print $1"."$2}')
-ib_ip_network_var=$(echo $ib_net_address | awk -F '.' '{print $1"."$2}')
 #If the subnet prefix is 24
 #If the subnet prefix is 23
 #If the subnet prefix is 22
@@ -105,31 +102,28 @@ elif [ $i -gt 254 ]; then
   m=$($last_node_no/254)
   n=$($last_node_no/254)
   for ((y = 1; y <= m; y++)); do
-    R=$(($y+$(echo $pv_net_address | awk -F '.' '{print $3}')))
-    S=$(($y+$(echo $bmc_net_address | awk -F '.' '{print $3}')))
-    T=$(($y+$(echo $ib_net_address | awk -F '.' '{print $3}')))
-    for ((x = 1; x <=254; x++)); do
-      pvt_ip_network=$($pvt_ip_network_var.$R.$x)
-      bmc_ip_network=$($bmc_ip_network_var.$S.$x)
-      ib_ip_network=$($ib_ip_network_var.$T.$x)
-      
-      if [ $i -lt $c ]; then
-        cn_prefix="rbcn00"
-      elif [ $i -eq $a ] || { [ $i -gt $a ] && [ $i -lt $b ]; }; then
-        cn_prefix="rbcn0"
-      elif [ $i -eq $b ] || [ $i -gt $b ]; then
-        cn_prefix="rbcn"
-      else
-        echo "None of the conditions met"
-        exit 1
-      fi
-      # Add node definition
-      mkdef -t node "${cn_prefix}${i}" groups=compute,all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=root nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=mac primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"    
+    o=$($last_node_no-254)
+    o=$($o-254)
+    if [ $o -lt $n ]; then
+      R=$((1+$(echo $pv_net_address | awk -F '.' '{print $3}')))
+      S=$((1+$(echo $bmc_net_address | awk -F '.' '{print $3}')))
+      T=$((1+$(echo $ib_net_address | awk -F '.' '{print $3}')))
+      for ((x = 1; x <=$n; x++)); do
+        pvt_ip_network=$($pvt_ip_network_var.$R.$x)
+        bmc_ip_network=$($bmc_ip_network_var.$S.$x)
+        ib_ip_network=$($ib_ip_network_var.$T.$x)
+        mkdef -t node "${cn_prefix}${i}" groups=compute,all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=root nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=mac primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
+      done
+    else
+      R=$(($y+$(echo $pv_net_address | awk -F '.' '{print $3}')))
+      S=$(($y+$(echo $bmc_net_address | awk -F '.' '{print $3}')))
+      T=$(($y+$(echo $ib_net_address | awk -F '.' '{print $3}')))
+      for ((x = 1; x <=254; x++)); do
+        pvt_ip_network=$($pvt_ip_network_var.$R.$x)
+        bmc_ip_network=$($bmc_ip_network_var.$S.$x)
+        ib_ip_network=$($ib_ip_network_var.$T.$x)
+        mkdef -t node "${cn_prefix}${i}" groups=compute,all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=root nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=mac primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
+      done
+    fi
   
-  
-  
-
-
-  # Add node definition
-  mkdef -t node "${cn_prefix}${a}" groups=compute,all bmc="${bmc_ip_network}${a}" bmcpassword=0penBmc bmcusername=root nicips.ib0="${ib_ip_network}${a}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${ip_network}${a}" installnic=mac primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
 done
