@@ -1,30 +1,21 @@
 #!/bin/bash
-read -p "Enter The Subnet Prefix of Network:" subnet_prefix
-# Check if the subnet prefix is within the valid range
+
+#########This Bash code adds node definitions for compute nodes, scaling more than 10,000 nodes.############
+# Prompt for inputs
+read -p "Enter The Subnet Prefix of Network (Valid range: 18-24): " subnet_prefix
 if [[ $subnet_prefix -ge 18 && $subnet_prefix -le 24 ]]; then
     echo "Subnet prefix is valid. Proceeding with the script..."
-    # Add the rest of your script commands here
 else
     echo "Invalid subnet prefix. Please enter a value between 18 and 24."
     exit 1
 fi
 
-read -p "Enter Private Network Address (Starting Pvt_IP Address) Of The Subnet:" pv_net_address
-read -p "Enter BMC Network Address (Starting BMC_IP Address) Of The Subnet:" bmc_net_address
-read -p "Enter IB Network Address (Starting IB_IP Address) Of The Subnet:" ib_net_address
-echo "Now You Are Adding The Node Definition !!!"
-read -p "Enter The Prefix Value For Compute Node(For ex: rbcn or rpcn or cn):" prefix
+read -p "Enter Private Network Address (Starting Pvt_IP Address) Of The Subnet: " pv_net_address
+read -p "Enter BMC Network Address (Starting BMC_IP Address) Of The Subnet: " bmc_net_address
+read -p "Enter IB Network Address (Starting IB_IP Address) Of The Subnet: " ib_net_address
+read -p "Enter The Prefix Value For Compute Node (For ex: rbcn or rpcn or cn): " prefix
 read -p "Enter The Start Compute Node No: " start_node_no
 read -p "Enter The Last Compute Node No: " last_node_no
-#########This Bash code adds node definitions for compute nodes, scaling up to 16,382 nodes.############
-##Define the network range##
-#If the subnet prefix is 24
-#If the subnet prefix is 23
-#If the subnet prefix is 22
-#If the subnet prefix is 21
-#If the subnet prefix is 20
-#If the subnet prefix is 19
-#If the subnet prefix is 18
 
 
 # Check if mac.txt file exists
@@ -57,12 +48,7 @@ for ((i = start_node_no; i <= last_node_no; i++)); do
     exit 1
   fi
 
-  a=10
-  b=100
-  c=1000
-  d=10000
-  e=100000
-  # Nested conditions to set the prefix
+   # Nested conditions to set the prefix
     if [ $i -lt 10 ]; then
         cn_prefix="${base_cn_prefix}"
         if [ $i == 9 ]; then
