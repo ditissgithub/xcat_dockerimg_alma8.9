@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Enable debugging
-set -x
-set -e
 #########This Bash code adds node definitions for compute nodes, scaling more than 10,000 nodes.############
 # Prompt for inputs
 read -p "Enter The Subnet Prefix of Network (Valid range: 18-24): " subnet_prefix
