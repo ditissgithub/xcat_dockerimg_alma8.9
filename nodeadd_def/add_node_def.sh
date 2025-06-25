@@ -118,7 +118,7 @@ for ((block = 0; block <= num_full_blocks; block++)); do
 
         define_prefix $node_number
 
-        mkdef -t node "${cn_prefix}${node_number}" groups="${node_type}",all bmc="${bmc_ip_network}" bmcpassword=0penBm                                 c bmcusername=root nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_netw                                 ork}" installnic=mac primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
+        mkdef -t node "${cn_prefix}${node_number}" groups="${node_type}",all bmc="${bmc_ip_network}" bmcpassword=0penBmc bmcusername=root nicips.ib0="${ib_ip_network}" nicnetworks.ib0=ib0 nictypes.ib0=Infiniband mgt=ipmi ip="${pvt_ip_network}" installnic=mac primarynic=mac mac="$mac" netboot=xnba postscripts="confignetwork -s,lustre.sh,ringbuf.sh"
     done
 #    current_node=$(($current_node + $i - 1))
 done
