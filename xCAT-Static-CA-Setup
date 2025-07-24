@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# =====================================
+# Static CA Setup for xCAT Upgrade/Install
+# =====================================
+# This script creates and uses a static custom CA for xCAT, to ensure
+# the CA remains persistent across xCAT upgrades.
+# =====================================
+
+set -e
+
+# 1. Create a custom Root CA (if not already created)
+ROOT_CA_DIR=/etc/xcat/ca
+mkdir -p $ROOT_CA_DIR
+cd $ROOT_CA_DIR
+
+if [ ! -f "cacert.pem" ]; then
+  echo "[+] Generating static root CA certificate..."
+  openssl genrsa -out cakey.pem 4096
+  openssl req -x509 -new -nodes -key cakey.pem \
+    -sha256 -days 3650 -out cacert.pem \
+    -subj "/C=IN/ST=Maharashtra/L=Pune/O=CDAC/OU=HPC/CN=xcat-root-ca"
+else
+  echo "[+] Existing static CA found. Skipping creation."
+fi
+
+# 2. Re-run xCAT client setup script
+echo "[+] Setting up local client certs..."
+/opt/xcat/share/xcat/scripts/setup-local-client.sh
+
+# 3. Re-run xCAT server certificate setup using our static CA
+echo "[+] Setting up xCAT server certificates with static CA..."
+/opt/xcat/share/xcat/scripts/setup-server-cert.sh
+
+# 4. Restart xcatd to apply changes
+echo "[+] Restarting xcatd service..."
+systemctl restart xcatd
+
+# 5. Test xCAT functionality
+echo "[+] Testing xCAT commands (e.g., lsdef)..."
+if lsdef -t site >/dev/null 2>&1; then
+  echo "[+] xCAT CA setup successful and functional."
+else
+  echo "[!] xCAT setup failed. Check certificate or daemon logs."
+  exit 1
+fi
