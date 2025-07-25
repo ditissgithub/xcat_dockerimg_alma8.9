@@ -21,7 +21,8 @@ RUN (cd /lib/systemd/system/sysinit.target.wants/; \
 RUN mkdir -p /xcatdata/etc/{dhcp,goconserver,xcat} && ln -sf -t /etc /xcatdata/etc/{dhcp,goconserver,xcat} && \
     mkdir -p /xcatdata/{install,tftpboot} && ln -sf -t / /xcatdata/{install,tftpboot} && \
     mkdir -p /xcatdata/dhcpd && ln -sf -t /var/lib /xcatdata/dhcpd && \
-    mkdir -p /xcatdata/opt/xcat && ln -sf -t /opt/ /xcatdata/opt/xcat
+    mkdir -p /xcatdata/opt/xcat && ln -sf -t /opt/ /xcatdata/opt/xcat && \
+    mkdir -p /nodeadd_def
 
 
 RUN yum install -y -q wget which && \
@@ -36,19 +37,18 @@ RUN yum install -y -q wget which && \
        chrony \
        dhcp-client \
        procps-ng \
-       man && \
-    yum clean all
+       man
 
 # Install EPEL and Supervisor
 RUN dnf install -y epel-release && \
-    dnf install -y supervisor dnsmasq mariadb mariadb-server perl-DBD-mysql && \
+    dnf install -y supervisor dnsmasq mariadb mariadb-server perl-DBD-mysql initscripts && \
     dnf clean all
 
 RUN sed -i -e 's|#PermitRootLogin yes|PermitRootLogin yes|g' \
            -e 's|#Port 22|Port 2200|g' \
            -e 's|#UseDNS yes|UseDNS no|g' /etc/ssh/sshd_config && \
     echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config && \
-    echo "root:admin@@123" | chpasswd && \
+    echo "root:Rudra@@123" | chpasswd && \
     rm -rf /root/.ssh && \
     mv /xcatdata /xcatdata.NEEDINIT
 
@@ -61,6 +61,7 @@ RUN systemctl enable httpd && \
 # Copy supervisor configuration fileis
 COPY supervisord.conf /etc/supervisord.conf
 
+
 ADD mysqlsetup.mod /
 RUN chmod +x /mysqlsetup.mod
 
@@ -69,6 +70,9 @@ RUN chmod +x /mysqlsetup.sh
 
 ADD makedhcp.sh /
 RUN chmod +x /makedhcp.sh
+
+ADD add_nodedef.py /nodeadd_def
+RUN chmod +x /nodeadd_def/add_nodedef.py
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
