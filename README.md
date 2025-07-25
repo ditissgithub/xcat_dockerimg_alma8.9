@@ -86,7 +86,8 @@ Controls how xCAT assigns and manages node networks.
 
 ### 📝 Notes
 
-* All passwords must be alphanumeric — special characters may cause issues in automation or Docker environment variable parsing.
+* The dev.env file must be copied to .env so that Docker Compose can use it.
+* All passwords must be alphanumeric; special characters are not supported when inputting for the xCAT MySQL database.
 * Ensure consistency between the `.env` file and any static network or node configuration managed by xCAT.
 * Always reload Docker Compose after changing `.env` variables.
 
