@@ -1,12 +1,7 @@
 # xcat_dockerimg_alma8.9
 
 Note: Update the argument values in the dev.env file according to your requirements.
-📝 Example Entry:
-bash
-Copy
-Edit
-netname,mgt,192.168.0.0,255.255.255.0,eth0,192.168.0.1,192.168.0.1,8.8.8.8,192.168.0.1,,,192.168.0.100-192.168.0.200,192.168.0.10-192.168.0.99,1,1,,1,cluster.local,1500,,0
-🔧 Common Usage Tips:
+
 dev.env file for configuring xCAT with Docker Compose:
 ---
 
