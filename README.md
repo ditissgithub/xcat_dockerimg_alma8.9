@@ -2,7 +2,6 @@
 
 Note: Update the argument values in the dev.env file according to your requirements.
 
-dev.env file for configuring xCAT with Docker Compose:
 ---
 
 ## 📄 xCAT Docker Environment Configuration (`dev.env`)
