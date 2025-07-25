@@ -5,11 +5,15 @@ services:
   xcat:
     image: cdac_xcat:2.16.5
     environment:
+      - TIMEZONE=${TIMEZONE}
       - DHCPINTERFACE=${DHCPINTERFACE}
       - DOMAIN=${DOMAIN}
       - MASTER=${MASTER}
       - NAMESERVERS=${NAMESERVERS}
       - FORWARDERS=${FORWARDERS}
+      - MYSQL_PORT=${MYSQL_PORT}             # Add MySQL port variable
+      - MYSQLADMIN_PW=${MYSQLADMIN_PW}       # Add MySQL admin password variable
+      - MYSQLROOT_PW=${MYSQLROOT_PW}         # Add MySQL root password variable
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /drbd/xcatdata:/xcatdata       # Bind the DRBD mount point to /xcatdata in the container
