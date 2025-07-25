@@ -1,7 +1,12 @@
 # xcat_dockerimg_alma8.9
 
 Note: Update the argument values in the dev.env file according to your requirements.
-
+📝 Example Entry:
+bash
+Copy
+Edit
+netname,mgt,192.168.0.0,255.255.255.0,eth0,192.168.0.1,192.168.0.1,8.8.8.8,192.168.0.1,,,192.168.0.100-192.168.0.200,192.168.0.10-192.168.0.99,1,1,,1,cluster.local,1500,,0
+🔧 Common Usage Tips:
 dev.env file for configuring xCAT with Docker Compose:
 ---
 
@@ -48,7 +53,7 @@ Defines which network interfaces the xCAT DHCP server should listen on.
 
 Set DNS domain details and upstream forwarders.
 
-* **`DOMAIN`**: The DNS domain name for your cluster (e.g., `iitp.ac.in`).
+* **`DOMAIN`**: The DNS domain name for your cluster (e.g., `server.ac.in`).
 * **`FORWARDERS`**: External DNS servers for resolving names outside the cluster.
 
   * Preferred: `172.25.0.3` (VIP)
@@ -93,5 +98,4 @@ Controls how xCAT assigns and manages node networks.
 
 ---
 
-Let me know if you'd like a markdown version of this embedded in your repository or need it split into subsections for wiki use.
 
