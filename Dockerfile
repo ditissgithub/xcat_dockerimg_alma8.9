@@ -71,7 +71,7 @@ RUN chmod +x /mysqlsetup.sh
 ADD makedhcp.sh /
 RUN chmod +x /makedhcp.sh
 
-ADD ./nodeadd_def /nodeadd_def
+ADD ./nodeadd_def/add_nodedef.py /nodeadd_def
 RUN chmod +x /nodeadd_def/add_nodedef.py
 
 ADD entrypoint.sh /entrypoint.sh
