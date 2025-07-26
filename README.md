@@ -7,6 +7,7 @@ Note: Update the argument values in the dev.env file according to your requireme
 ## 📄 xCAT Docker Environment Configuration (`dev.env`)
 
 This `.env` file provides all necessary environment variables for deploying and configuring an xCAT-based cluster environment using Docker Compose. It enables modular, repeatable configuration for HA setups, MySQL, networking, and DNS components.
+Source: https://xcat-docs.readthedocs.io/en/stable/guides/admin-guides/basic_concepts/global_cfg/index.html
 
 ### 🔁 High Availability (HA) Settings
 
