@@ -1,9 +1,10 @@
+cat entrypoint.sh
 #!/bin/bash
 
 # Check if xCAT and MySQL directories exist, and start services if so
 if [ -f /var/lib/mysql/xcatdb/db.opt ] && [ -f /etc/xcat/cfgloc ]; then
     #echo "Starting all xCAT-related services..."
-    cp -r /xcatdata/.xcat /root/.xcat
+
     # Start supervisord to manage xCAT services
     /usr/bin/supervisord -c /etc/supervisord.conf
 
@@ -39,6 +40,7 @@ else
         tabdump site | grep dhcpinterfaces || chtab key=dhcpinterfaces site.value="${DHCPINTERFACE}"
 
         # Update site table with master, nameservers, and forwarders values
+        chtab key=timezone site.value="${TIMEZONE}"
         chtab key=master site.value="${MASTER}"
         chtab key=nameservers site.value="${NAMESERVERS}"
         chtab key=forwarders site.value="${FORWARDERS}"
@@ -100,4 +102,5 @@ else
     # Execute init process to start other system services
     exec /sbin/init
 fi
+
 
