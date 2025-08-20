@@ -4,16 +4,16 @@ Note: Update the argument values in the dev.env file according to your requireme
 
 ---
 
-## 📄 xCAT Docker Environment Configuration (`dev.env`)
+## xCAT Docker Environment Configuration (`dev.env`)
 
 This `.env` file provides all necessary environment variables for deploying and configuring an xCAT-based cluster environment using Docker Compose. It enables modular, repeatable configuration for HA setups, MySQL, networking, and DNS components.
 Source: https://xcat-docs.readthedocs.io/en/stable/guides/admin-guides/basic_concepts/global_cfg/index.html
 
-### 🔁 High Availability (HA) Settings
+### High Availability (HA) Settings
 
 * **`XCAT_VIP`**: The Virtual IP (VIP) address for xCAT management when configured in HA mode using **PCS**. All compute nodes and clients will interact with this VIP instead of individual nodes.
 
-### 🛢️ MySQL Database Configuration
+### MySQL Database Configuration
 
 These variables configure the xCAT database backend to use MySQL instead of SQLite.
 
@@ -21,11 +21,11 @@ These variables configure the xCAT database backend to use MySQL instead of SQLi
 * **`MYSQL_ADMIN_PW`**: Password for the MySQL admin user (alphanumeric only).
 * **`MYSQL_ROOT_PW`**: Root password for MySQL (alphanumeric only).
 
-### 🕑 Time Synchronization
+### Time Synchronization
 
 * **`TIMEZONE`**: Linux timezone setting to be applied across the cluster (e.g., `Asia/Kolkata`).
 
-### 🌐 Network Interface for DHCP
+### Network Interface for DHCP
 
 Defines which network interfaces the xCAT DHCP server should listen on.
 
@@ -34,7 +34,7 @@ Defines which network interfaces the xCAT DHCP server should listen on.
   * Example for all: `hpc-master01 | eth2,eth2:0;all`
   * Example for group: `xcatmn|eth1,eth2;service|bond0`
 
-### 🌍 DNS Configuration
+### DNS Configuration
 
 Set DNS domain details and upstream forwarders.
 
@@ -49,7 +49,7 @@ Set DNS domain details and upstream forwarders.
   * Use `<xcatmaster>` for dynamic resolution based on node hierarchy
   * Or use a specific IP (e.g., `172.25.0.3`)
 
-### 🔌 Infiniband (IB) Network Configuration
+###  Infiniband (IB) Network Configuration
 
 For HPC environments using IB networks.
 
@@ -57,7 +57,7 @@ For HPC environments using IB networks.
 * **`IB_MASK`**: IB subnet mask (e.g., `255.255.254.0`)
 * **`XCAT_MASTER`**: DNS gateway for IB nodes (usually `<xcatmaster>`)
 
-### 🧠 Network Table Configuration
+###  Network Table Configuration
 
 Controls how xCAT assigns and manages node networks.
 
@@ -69,7 +69,7 @@ Controls how xCAT assigns and manages node networks.
 * **`MGT_IF_NAME`**: Interface name on the nodes (e.g., `eth2:0`).
 * **`TFTP_SERVER`**: Server IP for PXE/TFTP boot services (often same as DHCP server).
 
-### 📝 Notes
+###  Notes
 
 * The dev.env file must be copied to .env so that Docker Compose can use it.
 * All passwords must be alphanumeric; special characters are not supported when inputting for the xCAT MySQL database.
